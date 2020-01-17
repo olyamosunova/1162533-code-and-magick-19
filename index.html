@@ -181,6 +181,32 @@
   </div>
 </template>
 
+<script>
+  var fireballSize = 22;
+
+  var getFireballSpeed = function (left) {
+    if (left) {
+      return 5;
+    } else {
+      return 2;
+    }
+  }
+
+  var wizardSpeed = 3;
+  var wizardWidth = 70;
+
+  var getWizardHeight = function () {
+    return 1.337*wizardWidth;
+  }
+
+  var getWizardX = function (width) {
+    return width/2-wizardWidth/2; //нужно ли учитывать ширину мага?
+  }
+
+  var getWizardY = function (height) {
+    return (height-getWizardHeight()-height*2/3); //нужно ли учитывать высоту мага?
+  }
+</script>
 <script src="js/game.js"></script>
 
 </body>
