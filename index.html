@@ -185,26 +185,23 @@
   var fireballSize = 22;
 
   var getFireballSpeed = function (left) {
-    if (left) {
-      return 5;
-    } else {
-      return 2;
-    }
+    return left == true ? 5 : 2;
   }
 
   var wizardSpeed = 3;
   var wizardWidth = 70;
 
   var getWizardHeight = function () {
-    return 1.337*wizardWidth;
+    return 1.337 * wizardWidth;
   }
 
   var getWizardX = function (width) {
-    return width/2-wizardWidth/2; //нужно ли учитывать ширину мага?
+    return width / 2 - wizardWidth / 2; //вычитаем половину ширины мага, для его позиционирования ровно по центру
   }
 
   var getWizardY = function (height) {
-    return (height-getWizardHeight()-height*2/3); //нужно ли учитывать высоту мага?
+    var positionY = height - height * 2 / 3; //маг появляется на высоте 2/3 игрового поля от земли
+    return (positionY - getWizardHeight()); //вычитаем высоту мага, для его позиционирования ровно на высоте 2/3
   }
 </script>
 <script src="js/game.js"></script>
