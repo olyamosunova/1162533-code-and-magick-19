@@ -185,7 +185,7 @@
   var fireballSize = 22;
 
   var getFireballSpeed = function (left) {
-    return left == true ? 5 : 2;
+    return left === true ? 5 : 2;
   }
 
   var wizardSpeed = 3;
@@ -200,7 +200,7 @@
   }
 
   var getWizardY = function (height) {
-    var positionY = height - height * 2 / 3; //маг появляется на высоте 2/3 игрового поля от земли
+    var positionY = height / 3; //маг появляется на высоте 2/3 игрового поля от земли
     return (positionY - getWizardHeight()); //вычитаем высоту мага, для его позиционирования ровно на высоте 2/3
   }
 </script>
