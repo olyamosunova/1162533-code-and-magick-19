@@ -4,7 +4,6 @@ var COUNT_CHARACTERS = 4;
 var ESC_KEY_CODE = 27;
 var ENTER_KEY_CODE = 13;
 
-
 var userDialog = document.querySelector('.setup');
 var similarWizardsBlock = userDialog.querySelector('.setup-similar');
 var userDialogOpen = document.querySelector('.setup-open');
@@ -43,32 +42,23 @@ var hidePopup = function () {
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-userDialogOpen.addEventListener('click', function () {
-  showPopup();
-});
-
-userDialogOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEY_CODE) {
-    showPopup();
-  }
-});
-
-userDialogClose.addEventListener('click', function () {
-  hidePopup();
-});
-
-userDialogClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEY_CODE) {
-    hidePopup();
-  }
-});
-
 var showSimilarWizardsBlock = function () {
   similarWizardsBlock.classList.remove('hidden');
 };
 
 var getRandomItem = function (dataList) {
   return dataList[Math.floor(Math.random() * dataList.length)];
+};
+
+var getNextItem = function (array) {
+  var index = -1;
+  return function () {
+    index++;
+    if (index === array.length) {
+      index = 0;
+    }
+    return array[index];
+  };
 };
 
 var getCharacters = function (name, surname, colorCoat, colorEyes) {
@@ -102,43 +92,59 @@ var renderSimilarWizards = function () {
   similarListElement.appendChild(fragment);
 };
 
+userDialogOpen.addEventListener('click', function () {
+  showPopup();
+});
+
+userDialogOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
+    showPopup();
+  }
+});
+
+userDialogClose.addEventListener('click', function () {
+  hidePopup();
+});
+
+userDialogClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
+    hidePopup();
+  }
+});
+
+var changeAppearanceWizard = function (thing, inputThing, colorsList) {
+  var getNextColor = getNextItem(colorsList);
+  var a = 1;
+  for (var i = 0; i < a; i++) {
+    thing.addEventListener('click', function () {
+      a++;
+      var color = getNextColor();
+      if (thing.tagName.toLowerCase() === 'div') {
+        thing.style.background = color;
+      } else {
+        thing.style.fill = color;
+      }
+      inputThing.value = color;
+    });
+
+    thing.addEventListener('keydown', function (evt) {
+      a++;
+      var color = getNextColor();
+      if (evt.keyCode === ENTER_KEY_CODE) {
+        if (thing.tagName.toLowerCase() === 'div') {
+          thing.style.background = color;
+        } else {
+          thing.style.fill = color;
+        }
+        inputThing.value = color;
+      }
+    });
+  }
+};
+
+changeAppearanceWizard(wizardCoat, inputCoat, coatColors);
+changeAppearanceWizard(wizardEyes, inputEyes, eyesColors);
+changeAppearanceWizard(fireball, inputFireball, fireballColors);
+
 renderSimilarWizards();
 showSimilarWizardsBlock();
-
-wizardCoat.addEventListener('click', function () {
-  wizardCoat.style.fill = getRandomItem(coatColors);
-  inputCoat.value = wizardCoat.style.fill;
-});
-
-wizardCoat.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEY_CODE) {
-    wizardCoat.style.fill = getRandomItem(coatColors);
-    inputCoat.value = wizardCoat.style.fill;
-  }
-});
-
-wizardEyes.addEventListener('click', function () {
-  wizardEyes.style.fill = getRandomItem(eyesColors);
-  inputEyes.value = wizardEyes.style.fill;
-});
-
-wizardEyes.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEY_CODE) {
-    wizardEyes.style.fill = getRandomItem(eyesColors);
-    inputEyes.value = wizardEyes.style.fill;
-  }
-});
-
-fireball.addEventListener('click', function () {
-  var fireballColor = getRandomItem(fireballColors);
-  fireball.style.background = fireballColor;
-  inputFireball.value = fireballColor;
-});
-
-fireball.addEventListener('keydown', function (evt) {
-  var fireballColor = getRandomItem(fireballColors);
-  if (evt.keyCode === ENTER_KEY_CODE) {
-    fireball.style.background = fireballColor;
-    inputFireball.value = fireballColor;
-  }
-});
